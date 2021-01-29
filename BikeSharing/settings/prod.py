@@ -119,6 +119,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATICFILES_DIRS = [
+    '/home/politouz/code/BikeSharingMVP/venv/lib/python3.8/site-packages/django/contrib/admin/static/',
+    '/home/politouz/code/BikeSharingMVP/venv/lib/python3.8/site-packages/rest_framework/static/'
+]
+
+STATIC_ROOT = '/home/politouz/code/BikeSharingMVP/static/'
+
 STATIC_URL = '/static/'
 
 MEDIA_URL = 'media/'
