@@ -134,7 +134,7 @@ class OrderList(ListCreateAPIView):
             if not models.Order.objects.all().filter(status__lt=models.OrderStatuses.FINISHED,
                                                      bike__id=order.data['bike'],
                                                      user=self.request.user):
-                if self.request.user.balance.balance > settings.MINIMUM_BALANCE and \
+                if self.request.user.balance.balance < settings.MINIMUM_BALANCE and \
                         self.request.user.balance.status != Status.BLOCKED:
                     return self.create(*args, **kwargs)
                 raise NotEnoughMoney
