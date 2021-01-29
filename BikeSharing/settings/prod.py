@@ -76,10 +76,12 @@ WSGI_APPLICATION = 'BikeSharing.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bs_db',
         'USER': 'bs_user',
         'PASSWORD': 'bs_user@postgres!',
+        'HOST': 'localhost',
+        'PORT': 5432
     }
 }
 
