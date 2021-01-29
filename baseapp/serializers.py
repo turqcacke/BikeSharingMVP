@@ -20,13 +20,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class BikePlaceSerializer(serializers.ModelSerializer):
-    # station = StationSerializer(read_only=True)
-
-    # bike = serializers.HyperlinkedRelatedField(
-    #     view_name='bike_detail',
-    #     lookup_field='id',
-    #     read_only=True,
-    # )
 
     class Meta:
         model = models.BikePlace

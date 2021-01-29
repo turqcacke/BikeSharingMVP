@@ -1,7 +1,7 @@
 from . import models
 from django.core.exceptions import FieldError
 from . import serializers
-from .rest_exceptions import AlreadyExist, InvalidParam, AlreadyOccupied, DoesntExists, Forbidden
+from .rest_exceptions import AlreadyExist, InvalidParam, AlreadyOccupied, DoesntExists, Forbidden, NotEnoughMoney
 from .utils import make_valid_dict
 from rest_framework.mixins import UpdateModelMixin, CreateModelMixin
 from django.contrib.auth.models import User
@@ -11,16 +11,16 @@ from .models import OrderStatuses
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from django.conf import settings
+from account.models import Status
+from .permission import IsSuperUser
 
 
-class UserList(ListAPIView, UpdateModelMixin):
+class UserList(ListAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
     authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    permission_classes = [permissions.IsAuthenticated, IsSuperUser]
 
 
 class UserDetail(APIView):
@@ -69,7 +69,7 @@ class BikeDetail(RetrieveAPIView, UpdateModelMixin):
         return self.update(request, *args, **kwargs)
 
 
-class BikePlaceList(ListCreateAPIView):
+class BikePlaceList(ListAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = serializers.BikePlaceSerializer
@@ -92,18 +92,16 @@ class BikePlaceDetail(RetrieveAPIView, UpdateModelMixin):
     lookup_field = 'id'
 
     def put(self, request, *args, **kwargs):
-        bike_place_ser = serializers.BikePlaceSerializer(data=request.data)
-        bike_place_ser.is_valid()
+        bike_place_data = request.data
         try:
-            bike_place = models.BikePlace.objects.get(id=bike_place_ser.data['id'])
+            bike_place = models.BikePlace.objects.get(id=bike_place_data['id'])
         except models.BikePlace.DoesNotExist:
             raise DoesntExists
-        print(bike_place_ser.data)
-        if bike_place_ser.data['bike'] is not None:
+        if bike_place_data['bike'] is not None:
             if bike_place.status != 1:
                 raise AlreadyOccupied
             try:
-                order = models.Order.active.get(bike__id=bike_place_ser.data['bike'])
+                order = models.Order.active.get(bike__id=bike_place_data['bike'])
                 order.status = OrderStatuses.FINISHED
                 order.save()
             except models.Order.DoesNotExist:
@@ -125,19 +123,21 @@ class OrderList(ListCreateAPIView):
 
         if self.request.query_params:
             try:
-                return queryset.filter(**params)
+                return queryset.filter(**params, user=self.request.user)
             except (FieldError, ValueError):
                 raise InvalidParam
-        return queryset
+        return queryset.filter(user=self.request.user)
 
     def post(self, *args, **kwargs):
         order = serializers.OrderSerializer(data=self.request.data)
         if order.is_valid():
-            print(order.data)
             if not models.Order.objects.all().filter(status__lt=models.OrderStatuses.FINISHED,
                                                      bike__id=order.data['bike'],
                                                      user=self.request.user):
-                return self.create(*args, **kwargs)
+                if self.request.user.balance.balance > settings.MINIMUM_BALANCE and \
+                        self.request.user.balance.status != Status.BLOCKED:
+                    return self.create(*args, **kwargs)
+                raise NotEnoughMoney
         raise AlreadyExist
 
 

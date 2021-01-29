@@ -15,24 +15,31 @@ class DefaultException(APIException):
 
 class AlreadyExist(DefaultException):
     default_detail = {'code': DefaultException.status_code,
-                      'message': 'Active order with this bike is already exist.'}
+                      'detail': 'Active order with this bike is already exist.'}
 
 
 class InvalidParam(DefaultException):
     default_detail = {'code': DefaultException.status_code,
-                      'message': 'Invalid or non-existent parameter has been passed.'}
+                      'detail': 'Invalid or non-existent parameter has been passed.'}
 
 
 class AlreadyOccupied(DefaultException):
     default_detail = {'code': DefaultException.status_code,
-                      'message': 'This bike place is already occupied.'}
+                      'detail': 'This bike place is already occupied.'}
 
 
 class DoesntExists(DefaultException):
     default_detail = {'code': DefaultException.status_code,
-                      'message': 'Requested object doesn\'t exists'}
+                      'detail': 'Requested object doesn\'t exists'}
 
 
 class Forbidden(DefaultException):
+    status_code = status.HTTP_403_FORBIDDEN
     default_detail = {'code': status.HTTP_403_FORBIDDEN,
-                      'message': 'Forbidden.'}
+                      'detail': 'Forbidden.'}
+
+
+class NotEnoughMoney(DefaultException):
+    status_code = status.HTTP_403_FORBIDDEN
+    default_detail = {'code': status.HTTP_403_FORBIDDEN,
+                      'detail': 'Not enough money or account has been blocked.'}

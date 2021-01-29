@@ -4,7 +4,7 @@ from .models import Balance
 
 class CardNumberAuth(object):
     """
-    Auth useing card number from profile
+    Auth using card number from profile
     """
 
     def authenticate(self, request, username=None, password=None):
@@ -13,7 +13,7 @@ class CardNumberAuth(object):
             if user.check_password(password):
                 return user
             return None
-        except User.DoesNotExist:
+        except (User.DoesNotExist, ValueError):
             return None
 
     def get_user(self, user_id):

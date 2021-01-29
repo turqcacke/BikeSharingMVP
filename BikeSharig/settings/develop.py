@@ -124,8 +124,8 @@ LOGIN_URL = 'login'
 
 # Backend authentication
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
     'account.authentication.CardNumberAuth',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 # REST
@@ -135,3 +135,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
+
+# APP SETTINGS
+MINIMUM_BALANCE = 10
