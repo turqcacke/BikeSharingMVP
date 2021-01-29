@@ -10,7 +10,7 @@ class Status(models.IntegerChoices):
 class Balance(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                                 related_name='balance')
-    card_number = models.IntegerField(primary_key=True)
+    card_number = models.CharField(primary_key=True, max_length=16)
     balance = models.IntegerField(default=0)
     status = models.IntegerField(choices=Status.choices, default=Status.ACTIVE)
 
