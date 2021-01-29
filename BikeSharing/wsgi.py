@@ -1,5 +1,5 @@
 """
-WSGI config for BikeSharig project.
+WSGI config for BikeSharing project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BikeSharig.settings.develop')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BikeSharing.settings.develop')
 
 application = get_wsgi_application()
