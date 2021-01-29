@@ -120,8 +120,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'venv/lib/python3.8/site-packages/django/contrib/admin/static/'),
-    os.path.join(BASE_DIR, 'venv/lib/python3.8/site-packages/rest_framework/static/')
+    os.path.join(BASE_DIR, 'venv/lib/python3.8/site-packages/django/contrib/admin/staticg'),
+    os.path.join(BASE_DIR, 'venv/lib/python3.8/site-packages/rest_framework/static')
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
