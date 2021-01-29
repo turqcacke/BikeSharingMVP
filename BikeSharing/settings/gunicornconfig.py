@@ -5,4 +5,4 @@ workers = 5
 user = 'politouz'
 limit_request_fields = 32000
 limit_request_field_size = 0
-raw_env = 'DJANGO_SETTINGS_MODULE=BikeSharing.settings.prod'
+raw_env = 'DJANGO_SETTINGS_MODULE=BikeSharing.settings.develop'
