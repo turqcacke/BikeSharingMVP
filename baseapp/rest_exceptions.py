@@ -31,3 +31,8 @@ class AlreadyOccupied(DefaultException):
 class DoesntExists(DefaultException):
     default_detail = {'code': DefaultException.status_code,
                       'message': 'Requested object doesn\'t exists'}
+
+
+class Forbidden(DefaultException):
+    default_detail = {'code': status.HTTP_403_FORBIDDEN,
+                      'message': 'Forbidden.'}

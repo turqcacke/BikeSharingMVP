@@ -1,31 +1,46 @@
 from . import models
 from django.core.exceptions import FieldError
 from . import serializers
-from .rest_exceptions import AlreadyExist, InvalidParam, AlreadyOccupied, DoesntExists
+from .rest_exceptions import AlreadyExist, InvalidParam, AlreadyOccupied, DoesntExists, Forbidden
 from .utils import make_valid_dict
 from rest_framework.mixins import UpdateModelMixin, CreateModelMixin
 from django.contrib.auth.models import User
 from rest_framework.generics import RetrieveAPIView, ListAPIView, ListCreateAPIView
+from rest_framework.views import APIView
 from .models import OrderStatuses
 from rest_framework import permissions
-
+from rest_framework.response import Response
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 
 
 class UserList(ListAPIView, UpdateModelMixin):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
 
-class UserDetail(RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = serializers.UserSerializer
-    lookup_field = 'id'
+class UserDetail(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, username, *args, **kwargs):
+        try:
+            user = User.objects.get(balance__card_number=username)
+        except ValueError:
+            user = User.objects.get(username=username)
+        if self.request.user.username == user.username:
+            ser = serializers.UserSerializer(user)
+            return Response(ser.data)
+        raise Forbidden(detail='Invalid username.')
 
 
 class BikeList(ListAPIView, CreateModelMixin):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = serializers.BikeSerializer
     lookup_field = 'id'
 
@@ -44,6 +59,8 @@ class BikeList(ListAPIView, CreateModelMixin):
 
 
 class BikeDetail(RetrieveAPIView, UpdateModelMixin):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = models.Bike.objects.all()
     serializer_class = serializers.BikeSerializer
     lookup_field = 'id'
@@ -53,6 +70,8 @@ class BikeDetail(RetrieveAPIView, UpdateModelMixin):
 
 
 class BikePlaceList(ListCreateAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = serializers.BikePlaceSerializer
     lookup_field = 'id'
 
@@ -123,6 +142,8 @@ class OrderList(ListCreateAPIView):
 
 
 class StationList(ListAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = serializers.StationSerializer
     lookup_field = 'id'
 
