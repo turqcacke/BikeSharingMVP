@@ -25,7 +25,7 @@ SECRET_KEY = '8it@d83^%ridu^nw*au!wf@9a-ao13g258vfzs^1p!z%w*#b+p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['dev.polito.uz']
 
 # Application definition
 
