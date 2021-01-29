@@ -50,7 +50,7 @@ class StatusZeroManager(models.Manager):
 class Order(models.Model):
     objects = models.Manager()
     active = StatusOneManager()
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     status = models.IntegerField(choices=OrderStatuses.choices, default=OrderStatuses.ACTIVE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='orders', on_delete=models.CASCADE)
     start = models.DateTimeField(blank=True, null=True)
