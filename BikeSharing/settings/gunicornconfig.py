@@ -1,6 +1,6 @@
 command = '/home/politouz/code/BikeSharingMVP/venv/bin/gunicorn'
 pythonpath = '/home/politouz/code/BikeSharingMVP/BikeSharing'
-bind = '127.0.0.1:8080'
+bind = '127.0.0.1:8081'
 workers = 5
 user = 'politouz'
 limit_request_fields = 32000
