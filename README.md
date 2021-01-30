@@ -26,7 +26,7 @@ bike_place: StationObject
 
 # ORDERS
 ### Available requests: **GET**, **POST**(with auth)
-If succeed **status_code=200** else **status_code=400*
+If succeed **status_code=200** else **status_code=400**
 Statuses:
 - 0: Pending
 - 1: Active
@@ -54,5 +54,24 @@ bike: int
 POST[with auth]
 
 status: int
+bike: int
+```
+
+# BIKE PLACE
+### Available requests: **GET**(with auth)
+Statuses:
+- 0: Occupied
+- 1: Active
+- 2: Maintenance
+
+**GET** - return list of bike places
+```
+http://127.0.0.1:3412/api/bike_place/
+```
+
+```
+id: int
+status: int
+station: int
 bike: int
 ```
