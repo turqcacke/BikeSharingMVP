@@ -15,7 +15,7 @@ class DefaultException(APIException):
 
 class AlreadyExist(DefaultException):
     default_detail = {'code': DefaultException.status_code,
-                      'detail': 'Active order with this bike is already exist.'}
+                      'detail': 'Active order with this bike is already exist or you have active orders.'}
 
 
 class InvalidParam(DefaultException):

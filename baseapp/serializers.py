@@ -20,11 +20,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class BikePlaceSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.BikePlace
-        fields = ['id', 'status', 'station', 'bike', 'qrcode']
-        read_only_fields = ['qrcode', 'station']
+        fields = ['id', 'status', 'station', 'bike']
+        read_only_fields = ['qrcode', 'station', 'id']
 
 
 class StationSerializer(serializers.ModelSerializer):
@@ -50,6 +49,7 @@ class UsernameField(serializers.RelatedField, ABC):
 
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
+    read_only_fields = ['start', 'end']
 
     class Meta:
         model = models.Order
