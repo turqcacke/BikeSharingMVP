@@ -52,7 +52,9 @@ class BikeList(ListAPIView, CreateModelMixin):
         params = make_valid_dict(self.request.query_params)
         if params:
             try:
-                return queryset.filter(**params)
+                queryset = queryset.filter(**params)
+                if not queryset:
+                    raise FieldError
             except (FieldError, ValueError):
                 raise InvalidParam
         return queryset
@@ -80,7 +82,9 @@ class BikePlaceList(ListAPIView):
         params = make_valid_dict(self.request.query_params)
         if params:
             try:
-                return queryset.filter(**params)
+                queryset = queryset.filter(**params)
+                if not queryset:
+                    raise FieldError
             except (FieldError, ValueError):
                 raise InvalidParam
         return queryset
@@ -91,10 +95,10 @@ class BikePlaceDetail(RetrieveUpdateAPIView):
     serializer_class = serializers.BikePlaceSerializer
     lookup_field = 'id'
 
-    def put(self, request, *args, **kwargs):
+    def put(self, request, id, *args, **kwargs):
         bike_place_data = request.data
         try:
-            bike_place = models.BikePlace.objects.get(id=bike_place_data['id'])
+            bike_place = models.BikePlace.objects.get(id=id)
         except models.BikePlace.DoesNotExist:
             raise DoesntExists
         if bike_place_data['bike'] is not None:
@@ -115,7 +119,7 @@ class OrderList(ListCreateAPIView):
     lookup_field = 'id'
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user.username)
+        serializer.save(user=self.request.user)
 
     def get_queryset(self):
         queryset = models.Order.objects.all()
@@ -133,12 +137,11 @@ class OrderList(ListCreateAPIView):
 
     def post(self, *args, **kwargs):
         order = serializers.OrderSerializer(data=self.request.data)
-        try:
-            models.Bike.objects.get(bike__id=order.data['bike'])
-        except (models.Bike.DoesNotExist, NameError):
-            raise DoesntExists
-
         if order.is_valid():
+            try:
+                models.Bike.objects.get(bike__id=order.data['bike'])
+            except (models.Bike.DoesNotExist, NameError):
+                raise DoesntExists
             if not models.Order.objects.all().filter(status__lt=models.OrderStatuses.FINISHED,
                                                      bike__id=order.data['bike']) and \
                     not models.Order.objects.all().filter(status__lt=models.OrderStatuses.FINISHED,
@@ -162,7 +165,9 @@ class StationList(ListAPIView):
         params = make_valid_dict(self.request.query_params)
         if params:
             try:
-                return queryset.filter(**params)
+                queryset = queryset.filter(**params)
+                if not queryset:
+                    raise FieldError
             except (FieldError, ValueError):
                 raise InvalidParam
         return queryset

@@ -20,11 +20,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class BikePlaceSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.BikePlace
-        fields = ['id', 'status', 'station', 'bike', 'qrcode']
-        read_only_fields = ['qrcode', 'station']
+        fields = ['id', 'status', 'station', 'bike']
+        read_only_fields = ['qrcode', 'station', 'id']
 
 
 class StationSerializer(serializers.ModelSerializer):
