@@ -120,14 +120,15 @@ class OrderList(ListCreateAPIView):
     def get_queryset(self):
         queryset = models.Order.objects.all()
         params = make_valid_dict(self.request.query_params)
-
+        if not isinstance(self.request.user, AnonymousUser):
+            queryset = queryset.filter(user=self.request.user)
         if self.request.query_params:
             try:
-                return queryset.filter(**params, user=self.request.user)
+                queryset = queryset.filter(**params)
+                if not queryset:
+                    raise FieldError
             except (FieldError, ValueError):
                 raise InvalidParam
-        if not isinstance(self.request.user, AnonymousUser):
-            return queryset.filter(user=self.request.user)
         return queryset
 
     def post(self, *args, **kwargs):
