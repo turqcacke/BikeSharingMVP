@@ -50,6 +50,7 @@ class UsernameField(serializers.RelatedField, ABC):
 
 class OrderSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
+    read_only_fields = ['start', 'end']
 
     class Meta:
         model = models.Order
