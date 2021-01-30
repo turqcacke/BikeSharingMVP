@@ -12,7 +12,7 @@ Return list of stations.
 ```
 http://dev.polito.uz/api/station/
 
-**GET[with auth]**
+GET[with auth]
 id: int
 status: int
 longitude: double
@@ -34,7 +34,7 @@ Statuses:
 
 ```
 http://dev.polito.uz/api/order/
-**GET**
+GET
 id: int
 user: str (username)
 status: int
@@ -44,7 +44,7 @@ bike: int
 ```
 
 ```
-**POST[with auth]**
+POST[with auth]
 status: int
 bike: int
 ```
