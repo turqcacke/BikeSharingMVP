@@ -41,7 +41,9 @@ status: int
 start: str
 end: int or null
 bike: int
+```
 
+```
 **POST[with auth]**
 status: int
 bike: int
