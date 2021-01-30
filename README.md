@@ -33,6 +33,7 @@ Statuses:
 - 2: Finished
 
 **GET** - return list of user orders if uthenticated else return full list of orders.
+
 **POST** - create new order if suceed return created object
 
 ```
