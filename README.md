@@ -9,7 +9,7 @@ Statuses:
 - 2: Maintenance
 **GET**- if succeed status_code=200 else status_code=4000
 Return list of stations.
-'''
+```
 http://dev.polito.uz/api/station/
 
 **GET[with auth]**
@@ -18,7 +18,7 @@ status: int
 longitude: double
 latitude: double
 bike_place: StationObject
-'''
+```
 
 ---
 
@@ -31,7 +31,8 @@ Statuses:
 - 2: Finished
 **GET** - return list of user orders if uthenticated else return full list of orders.
 **POST** - create new order if suceed return created object
-'''
+
+```
 http://dev.polito.uz/api/order/
 **GET**
 id: int
@@ -44,4 +45,4 @@ bike: int
 **POST[with auth]**
 status: int
 bike: int
-'''
+```
