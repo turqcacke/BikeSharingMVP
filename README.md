@@ -26,7 +26,7 @@ bike_place: StationObject
 
 # ORDERS
 ### Available requests: **GET**, **POST**(with auth)
-If succeed status_code=200 else status_code=4000
+If succeed **status_code=200** else **status_code=400*
 Statuses:
 - 0: Pending
 - 1: Active
