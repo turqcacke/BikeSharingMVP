@@ -57,6 +57,8 @@ status: int
 bike: int
 ```
 
+---
+
 # BIKE PLACE
 ### Available requests: **GET**(with auth)
 Statuses:
