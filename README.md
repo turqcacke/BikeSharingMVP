@@ -9,7 +9,9 @@ Statuses:
 - 2: Maintenance
 **GET**- if succeed status_code=200 else status_code=4000
 Return list of stations.
-```http://dev.polito.uz/api/station/```
+```
+http://dev.polito.uz/api/station/
+```
 ```
 GET[with auth]
 
