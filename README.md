@@ -9,10 +9,10 @@ Statuses:
 - 2: Maintenance
 **GET**- if succeed status_code=200 else status_code=4000
 Return list of stations.
+```http://dev.polito.uz/api/station/```
 ```
-http://dev.polito.uz/api/station/
-
 GET[with auth]
+
 id: int
 status: int
 longitude: double
@@ -34,7 +34,10 @@ Statuses:
 
 ```
 http://dev.polito.uz/api/order/
+```
+```
 GET
+
 id: int
 user: str (username)
 status: int
@@ -45,6 +48,7 @@ bike: int
 
 ```
 POST[with auth]
+
 status: int
 bike: int
 ```
