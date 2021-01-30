@@ -2,7 +2,7 @@
 MVP for BikeSharing porject
 
 # STATION
-### Available requests **GET**(with auth)
+### Available requests: **GET**(with auth)
 Statuses:
 - 0: Occupied
 - 1: Active
@@ -23,7 +23,7 @@ bike_place: StationObject
 ---
 
 # ORDERS
-### Available requests **GET**, **POST**(with auth)
+### Available requests: **GET**, **POST**(with auth)
 If succeed status_code=200 else status_code=4000
 Statuses:
 - 0: Pending
