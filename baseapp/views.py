@@ -4,7 +4,7 @@ from . import serializers
 from .rest_exceptions import AlreadyExist, InvalidParam, AlreadyOccupied, DoesntExists, Forbidden, NotEnoughMoney
 from .utils import make_valid_dict
 from rest_framework.mixins import UpdateModelMixin, CreateModelMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from rest_framework.generics import RetrieveAPIView, ListAPIView, ListCreateAPIView
 from rest_framework.views import APIView
 from .models import OrderStatuses
@@ -113,20 +113,23 @@ class OrderList(ListCreateAPIView):
     serializer_class = serializers.OrderSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     lookup_field = 'id'
-
+    
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
         queryset = models.Order.objects.all()
         params = make_valid_dict(self.request.query_params)
-
+        if not isinstance(self.request.user, AnonymousUser):
+            queryset = queryset.filter(user=self.request.user)
         if self.request.query_params:
             try:
-                return queryset.filter(**params, user=self.request.user)
+                queryset = queryset.filter(**params)
+                if not queryset:
+                    raise FieldError
             except (FieldError, ValueError):
                 raise InvalidParam
-        return queryset.filter(user=self.request.user)
+        return queryset
 
     def post(self, *args, **kwargs):
         order = serializers.OrderSerializer(data=self.request.data)
