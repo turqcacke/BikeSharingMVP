@@ -33,9 +33,9 @@ username - username or card number
 ```
 GET PARAMS
 
-id: id,
-username: string,
-email: string,
+id: id
+user: string (username)
+email: string
 ```
 
 # STATION
@@ -83,14 +83,14 @@ user: str (username)
 status: int
 start: string
 end: int or null
-bike: int
+bike: int (bike id)
 ```
 
 ```
 POST PARAMS[with auth]
 
 status: int
-bike: int
+bike: int (bike id)
 ```
 
 ---
@@ -112,6 +112,6 @@ GET PARAMS
 
 id: int
 status: int
-station: int
-bike: int
+station: int (station id)
+bike: int (bike id)
 ```
