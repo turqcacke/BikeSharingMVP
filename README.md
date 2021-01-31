@@ -104,7 +104,7 @@ Statuses:
 
 **GET** - return list of bike places
 ```
-http://127.0.0.1:3412/api/bike_place/
+http://dev.polito.uz/api/bike_place/
 ```
 
 ```
