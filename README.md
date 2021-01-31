@@ -12,7 +12,7 @@ base64 - base64 encryption should encrypt string "login:password"
 
 **Example:**
 ```
-Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+Authenticate: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
 ```
 
 # ORDER

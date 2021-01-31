@@ -30,7 +30,7 @@ class UserDetail(APIView):
     def get(self, request, username, *args, **kwargs):
         try:
             user = User.objects.get(balance__card_number=username)
-        except ValueError:
+        except (ValueError, User.DoesNotExist):
             user = User.objects.get(username=username)
         if self.request.user.username == user.username:
             ser = serializers.UserSerializer(user)
