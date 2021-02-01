@@ -126,8 +126,6 @@ class OrderList(ListCreateAPIView):
         params = make_valid_dict(self.request.query_params)
         if not isinstance(self.request.user, AnonymousUser):
             queryset = queryset.filter(user=self.request.user)
-            if 'user' in params:
-                params.pop('user')
         if self.request.query_params:
             try:
                 queryset = queryset.filter(**params)
