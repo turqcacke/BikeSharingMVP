@@ -33,9 +33,9 @@ username - username or card number
 ```
 GET PARAMS
 
-id: id
-user: string (username)
-email: string
+id: int
+status: int
+bike: int
 ```
 
 # STATION
