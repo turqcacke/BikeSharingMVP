@@ -144,7 +144,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
-    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S%z"
+    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S%Z"
 }
 
 # APP SETTINGS
