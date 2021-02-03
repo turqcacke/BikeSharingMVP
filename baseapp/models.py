@@ -1,6 +1,5 @@
 from datetime import datetime
 import pytz
-from account.models import Balance
 from django.db import models
 from django.conf import settings
 from io import BytesIO
@@ -59,6 +58,7 @@ class Order(models.Model):
     bike = models.ForeignKey('Bike', related_name='bike', on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
+        from account.models import Balance
         if self.bike:
             if self.status == 1 and not self.start:
                 self.start = datetime.now(tz=pytz.timezone('Asia/Tashkent'))
